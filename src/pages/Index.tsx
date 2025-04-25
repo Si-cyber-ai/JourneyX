@@ -27,6 +27,10 @@ const Index = () => {
     });
   };
 
+  const navigateToJourneyWall = () => {
+    navigate("/journey-wall");
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section */}
@@ -78,8 +82,25 @@ const Index = () => {
         </div>
       </section>
 
-      {/* How It Works Section */}
+      {/* Journey Wall Preview Section */}
       <section className="py-16 bg-muted/30">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-4">Explore the Journey Wall</h2>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">
+            Discover travel stories, hidden gems, and connect with fellow explorers on our community feed.
+          </p>
+          <Button 
+            size="lg" 
+            onClick={navigateToJourneyWall}
+            className="px-8"
+          >
+            Visit Journey Wall <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">How JourneyX Works</h2>
           <div className="grid md:grid-cols-3 gap-8">
