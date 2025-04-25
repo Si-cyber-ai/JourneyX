@@ -1,9 +1,8 @@
-
 import { motion } from "framer-motion";
 import { Hotel } from "@/types/booking";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, Star, Wifi, Pool } from "lucide-react";
+import { MapPin, Star, Wifi, Droplets } from "lucide-react";
 
 interface HotelCardProps {
   hotel: Hotel;
@@ -15,7 +14,7 @@ const HotelCard = ({ hotel }: HotelCardProps) => {
       case 'wifi':
         return <Wifi className="h-4 w-4" />;
       case 'pool':
-        return <Pool className="h-4 w-4" />;
+        return <Droplets className="h-4 w-4" />;
       default:
         return null;
     }
