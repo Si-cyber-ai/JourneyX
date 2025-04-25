@@ -7,6 +7,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import JourneyWall from "./pages/JourneyWall";
+import TravelAssistant from "./pages/TravelAssistant";
+import SecretSpots from "./pages/SecretSpots";
+import Booking from "./pages/Booking";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +22,9 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/journey-wall" element={<JourneyWall />} />
+          <Route path="/travel-assistant" element={<TravelAssistant />} />
+          <Route path="/secret-spots" element={<SecretSpots />} />
+          <Route path="/booking" element={<Booking />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

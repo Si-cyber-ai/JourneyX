@@ -1,159 +1,150 @@
 
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import HeroCarousel from "@/components/HeroCarousel";
 import FeaturedDestinations from "@/components/FeaturedDestinations";
-import AuthModal from "@/components/auth/AuthModal";
+import { 
+  Camera, 
+  Map, 
+  CloudSun, 
+  Plane, 
+  MapPin 
+} from "lucide-react";
 
 const Index = () => {
-  const { toast } = useToast();
-  const navigate = useNavigate();
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
-
-  const openAuthModal = (mode: "login" | "signup") => {
-    setAuthMode(mode);
-    setShowAuthModal(true);
-  };
-
-  const handleExploreClick = () => {
-    // For now just toast a message
-    toast({
-      title: "Coming soon!",
-      description: "Explore feature is under development.",
-    });
-  };
-
-  const navigateToJourneyWall = () => {
-    navigate("/journey-wall");
-  };
-
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-screen w-full overflow-hidden">
-        <div className="absolute inset-0 -z-10">
+      <div className="relative h-screen">
+        <div className="absolute inset-0">
           <HeroCarousel />
-        </div>
-        <div className="absolute inset-0 bg-black/30 z-0" />
-        
-        <div className="container mx-auto px-4 h-full flex flex-col justify-center relative z-10">
-          <div className="max-w-xl">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-              Discover the world's hidden gems
-            </h1>
-            <p className="text-xl text-white/90 mb-8">
-              Join our community of travelers sharing authentic experiences and secret spots around the globe.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                size="lg" 
-                onClick={() => openAuthModal("signup")}
-                className="bg-primary hover:bg-primary/90 text-white px-8"
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70 flex items-center justify-center">
+            <div className="container mx-auto px-4 text-center text-white">
+              <motion.h1 
+                className="text-4xl md:text-6xl font-bold mb-4"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
               >
-                Sign Up <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg"
-                onClick={() => openAuthModal("login")}
-                className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20"
+                Discover Your Next Adventure
+              </motion.h1>
+              <motion.p 
+                className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
               >
-                Log In
-              </Button>
+                Explore hidden gems and extraordinary journeys around the world
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="flex flex-wrap justify-center gap-4"
+              >
+                <Button asChild size="lg">
+                  <Link to="/journey-wall">
+                    <Camera className="mr-2" />
+                    View Journey Wall
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link to="/secret-spots">
+                    <Map className="mr-2" />
+                    Discover Secret Spots
+                  </Link>
+                </Button>
+              </motion.div>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Features Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center">Experience JourneyX</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <Map className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Journey Wall</h3>
+              <p className="text-muted-foreground">Share your adventures and discover stories from travelers around the world.</p>
+              <Button asChild variant="link" className="mt-4">
+                <Link to="/journey-wall">Explore Wall</Link>
+              </Button>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <CloudSun className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Travel Assistant</h3>
+              <p className="text-muted-foreground">Get real-time weather updates and travel news for any destination.</p>
+              <Button asChild variant="link" className="mt-4">
+                <Link to="/travel-assistant">Check Weather</Link>
+              </Button>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <MapPin className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Secret Spots</h3>
+              <p className="text-muted-foreground">Access exclusive hidden gems and off-the-beaten-path locations.</p>
+              <Button asChild variant="link" className="mt-4">
+                <Link to="/secret-spots">Unlock Secrets</Link>
+              </Button>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <Plane className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Booking</h3>
+              <p className="text-muted-foreground">Find and book flights, hotels, and experiences all in one place.</p>
+              <Button asChild variant="link" className="mt-4">
+                <Link to="/booking">Book Now</Link>
+              </Button>
+            </motion.div>
+          </div>
+        </div>
       </section>
 
-      {/* Featured Destinations Section */}
-      <section className="py-16 bg-background">
+      {/* Featured Destinations */}
+      <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold">Featured Destinations</h2>
-            <Button variant="ghost" onClick={handleExploreClick}>
-              View all <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
+          <h2 className="text-3xl font-bold mb-2 text-center">Featured Destinations</h2>
+          <p className="text-center text-muted-foreground mb-12">Handpicked locations for your next adventure</p>
           <FeaturedDestinations />
         </div>
       </section>
-
-      {/* Journey Wall Preview Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Explore the Journey Wall</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Discover travel stories, hidden gems, and connect with fellow explorers on our community feed.
-          </p>
-          <Button 
-            size="lg" 
-            onClick={navigateToJourneyWall}
-            className="px-8"
-          >
-            Visit Journey Wall <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
-        </div>
-      </section>
-
-      {/* How It Works Section */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">How JourneyX Works</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Discover",
-                description: "Find unique travel spots shared by our global community of explorers."
-              },
-              {
-                title: "Plan",
-                description: "Create personalized itineraries with our AI-powered trip planner."
-              },
-              {
-                title: "Experience",
-                description: "Travel confidently with local insights and real-time updates."
-              }
-            ].map((step, index) => (
-              <div key={index} className="bg-card rounded-xl p-8 shadow-md">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                  <span className="text-primary font-bold">{index + 1}</span>
-                </div>
-                <h3 className="text-xl font-bold mb-2">{step.title}</h3>
-                <p className="text-muted-foreground">{step.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* CTA Section */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to start your journey?</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join thousands of travelers discovering hidden gems and sharing authentic experiences.
-          </p>
-          <Button 
-            size="lg" 
-            variant="secondary" 
-            onClick={() => openAuthModal("signup")}
-            className="px-8"
-          >
-            Join JourneyX Today
-          </Button>
-        </div>
-      </section>
-
-      {/* Auth Modal */}
-      <AuthModal 
-        isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)}
-        defaultMode={authMode}
-      />
     </div>
   );
 };
