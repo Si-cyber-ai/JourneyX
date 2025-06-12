@@ -10,14 +10,13 @@ import JourneyWall from "./pages/JourneyWall";
 import TravelAssistant from "./pages/TravelAssistant";
 import SecretSpots from "./pages/SecretSpots";
 import Booking from "./pages/Booking";
+import BackToTop from "@/components/BackToTop";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
@@ -25,9 +24,11 @@ const App = () => (
           <Route path="/travel-assistant" element={<TravelAssistant />} />
           <Route path="/secret-spots" element={<SecretSpots />} />
           <Route path="/booking" element={<Booking />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <BackToTop />
+        <Toaster />
+        <Sonner />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

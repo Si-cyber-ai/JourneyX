@@ -11,11 +11,26 @@ interface PostGridProps {
 }
 
 const PostGrid = ({ posts, loading, onLike }: PostGridProps) => {
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
+
   if (loading) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {Array(6).fill(0).map((_, index) => (
-          <div key={index} className="rounded-xl overflow-hidden">
+          <div key={index} className="rounded-xl overflow-hidden bg-card/50 backdrop-blur-sm border border-border/50">
             <Skeleton className="h-64 w-full" />
             <div className="p-4 space-y-2">
               <Skeleton className="h-4 w-3/4" />
@@ -29,19 +44,22 @@ const PostGrid = ({ posts, loading, onLike }: PostGridProps) => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <motion.div 
+      variants={container}
+      initial="hidden"
+      animate="show"
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
       {posts.map((post, index) => (
         <motion.div
           key={post.id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1 }}
+          variants={item}
           className="h-fit"
         >
           <PostCard post={post} onLike={onLike} />
         </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 };
 

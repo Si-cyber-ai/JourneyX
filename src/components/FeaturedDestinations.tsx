@@ -1,79 +1,193 @@
 
-import { Card, CardContent } from "@/components/ui/card";
+import { useState } from "react";
+import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { MapPin, Calendar, Users, ArrowRight, Heart } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const destinations = [
   {
     id: "1",
     name: "Hidden Cove, Bali",
-    description: "A secluded beach paradise away from tourist crowds",
+    description: "A secluded beach paradise away from tourist crowds, featuring crystal clear waters and pristine white sand beaches.",
     image: "https://images.unsplash.com/photo-1426604966848-d7adac402bff",
     location: "Bali, Indonesia",
-    tags: ["beach", "hidden", "peaceful"]
+    tags: ["beach", "hidden", "peaceful"],
+    price: "1,299",
+    rating: 4.8,
+    reviews: 127,
+    startingDate: "Aug 2024",
+    duration: "7 days",
+    groupSize: "2-8",
   },
   {
     id: "2",
     name: "Mountain Sanctuary",
-    description: "Breathtaking views from this mountain retreat",
+    description: "Breathtaking views from this mountain retreat, surrounded by alpine meadows and snow-capped peaks.",
     image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
     location: "Swiss Alps, Switzerland",
-    tags: ["mountains", "hiking", "views"]
+    tags: ["mountains", "hiking", "views"],
+    price: "2,499",
+    rating: 4.9,
+    reviews: 89,
+    startingDate: "Jul 2024",
+    duration: "10 days",
+    groupSize: "4-12",
   },
   {
     id: "3",
     name: "Whale Watching Point",
-    description: "The best spot to see humpback whales up close",
+    description: "The best spot to see humpback whales up close, with expert marine biologists as your guides.",
     image: "https://images.unsplash.com/photo-1518877593221-1f28583780b4",
     location: "Maui, Hawaii",
-    tags: ["wildlife", "ocean", "photography"]
+    tags: ["wildlife", "ocean", "photography"],
+    price: "1,899",
+    rating: 4.7,
+    reviews: 156,
+    startingDate: "Sep 2024",
+    duration: "5 days",
+    groupSize: "6-15",
   }
 ];
 
 const FeaturedDestinations = () => {
   const navigate = useNavigate();
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [likedDestinations, setLikedDestinations] = useState<string[]>([]);
 
-  const handleClick = (id: string) => {
-    // Will navigate to detail page in the future
-    console.log(`Clicked destination ${id}`);
+  const handleLike = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLikedDestinations(prev => 
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {destinations.map((destination) => (
-        <Card 
-          key={destination.id} 
-          className="overflow-hidden group transition-all duration-300 hover:shadow-lg cursor-pointer"
-          onClick={() => handleClick(destination.id)}
-        >
-          <div className="h-48 overflow-hidden">
-            <img
-              src={destination.image}
-              alt={destination.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-          </div>
-          <CardContent className="p-5">
-            <div className="flex items-start justify-between">
-              <div>
-                <h3 className="font-bold text-lg">{destination.name}</h3>
-                <p className="text-sm text-muted-foreground mb-2">{destination.location}</p>
-              </div>
-            </div>
-            <p className="line-clamp-2 text-muted-foreground mb-3">{destination.description}</p>
-            <div className="flex flex-wrap gap-1">
-              {destination.tags.map(tag => (
-                <span 
-                  key={tag} 
-                  className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full"
+    <section className="py-12">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      >
+        {destinations.map((destination) => (
+          <motion.div
+            key={destination.id}
+            variants={item}
+            onHoverStart={() => setHoveredId(destination.id)}
+            onHoverEnd={() => setHoveredId(null)}
+            className="relative"
+          >
+            <Card 
+              className="overflow-hidden bg-card hover:shadow-2xl transition-all duration-300 cursor-pointer"
+              onClick={() => navigate(`/destination/${destination.id}`)}
+            >
+              <div className="relative h-[300px] overflow-hidden">
+                <motion.img
+                  src={destination.image}
+                  alt={destination.name}
+                  className="w-full h-full object-cover"
+                  animate={{
+                    scale: hoveredId === destination.id ? 1.05 : 1
+                  }}
+                  transition={{ duration: 0.4 }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                
+                <motion.button
+                  className={`absolute top-4 right-4 p-2 rounded-full ${
+                    likedDestinations.includes(destination.id) 
+                      ? 'bg-primary text-white' 
+                      : 'bg-white/80 text-gray-700'
+                  }`}
+                  onClick={(e) => handleLike(destination.id, e)}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+                  <Heart 
+                    className={`h-5 w-5 ${
+                      likedDestinations.includes(destination.id) ? 'fill-current' : ''
+                    }`}
+                  />
+                </motion.button>
+
+                <div className="absolute bottom-4 left-4 right-4">
+                  <div className="flex items-center space-x-1 text-white/90 text-sm mb-2">
+                    <MapPin className="h-4 w-4" />
+                    <span>{destination.location}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-1">{destination.name}</h3>
+                  <div className="flex items-center space-x-2">
+                    <span className="bg-white/20 backdrop-blur-sm text-white px-2 py-1 rounded-full text-xs">
+                      ⭐ {destination.rating}
+                    </span>
+                    <span className="text-white/80 text-xs">
+                      ({destination.reviews} reviews)
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-5 space-y-4">
+                <p className="text-muted-foreground line-clamp-2">
+                  {destination.description}
+                </p>
+
+                <div className="flex items-center justify-between text-sm text-muted-foreground">
+                  <div className="flex items-center space-x-2">
+                    <Calendar className="h-4 w-4" />
+                    <span>{destination.duration}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Users className="h-4 w-4" />
+                    <span>{destination.groupSize}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span>From</span>
+                    <span className="font-bold text-primary">${destination.price}</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {destination.tags.map(tag => (
+                    <span 
+                      key={tag}
+                      className="px-2 py-1 bg-secondary text-xs rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <Button 
+                  className="w-full group"
+                  variant="default"
+                >
+                  <span>Explore Now</span>
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </div>
+            </Card>
+          </motion.div>
+        ))}
+      </motion.div>
+    </section>
   );
 };
 
