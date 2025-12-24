@@ -47,17 +47,18 @@ const BackToTop = () => {
             "rounded-full bg-primary shadow-lg",
             "transition-all duration-300 ease-in-out",
             "hover:bg-primary/90",
-            isHovered ? "w-[140px] pr-6" : "w-12",
-            "h-12"
+            isHovered ? "w-[140px]" : "w-12",
+            "h-12",
+            "overflow-hidden",
+            "p-0"
           )}
         >
           <motion.div
             animate={{
-              x: isHovered ? 12 : 0,
-              y: isHovered ? 0 : 0,
+              x: isHovered ? 0 : 0,
             }}
             transition={{ duration: 0.3 }}
-            className="flex items-center"
+            className="flex items-center justify-center w-full h-full"
           >
             <motion.div
               animate={{
@@ -65,17 +66,19 @@ const BackToTop = () => {
                 rotate: isHovered ? -10 : 0,
               }}
               transition={{ duration: 0.3 }}
+              className="flex items-center justify-center w-5 h-5 shrink-0"
             >
-              <ArrowUp className="h-5 w-5 text-primary-foreground" />
+              <ArrowUp className="w-5 h-5 text-primary-foreground" />
             </motion.div>
             <motion.span
               initial={{ opacity: 0, width: 0 }}
               animate={{
                 opacity: isHovered ? 1 : 0,
                 width: isHovered ? "auto" : 0,
+                marginLeft: isHovered ? "8px" : "0px",
               }}
               transition={{ duration: 0.3 }}
-              className="ml-2 text-sm font-medium text-primary-foreground whitespace-nowrap overflow-hidden"
+              className="text-sm font-medium text-primary-foreground whitespace-nowrap"
             >
               Back to Top
             </motion.span>
