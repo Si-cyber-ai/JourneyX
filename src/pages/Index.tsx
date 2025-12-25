@@ -1,5 +1,5 @@
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import HeroCarousel from "@/components/HeroCarousel";
@@ -17,7 +17,6 @@ import {
   Users,
   TrendingUp
 } from "lucide-react";
-import { useRef } from "react";
 import { cn } from "@/lib/utils";
 
 const ExperienceSection = () => {
@@ -25,7 +24,7 @@ const ExperienceSection = () => {
     {
       icon: Map,
       title: "Journey Wall",
-      description: "Immerse yourself in a tapestry of global adventures. Share your stories and discover hidden narratives from fellow wanderers across continents.",
+      description: "Real journeys from real travelers—not influencer highlights. See what actually happened, where things went wrong, and what made the trip unforgettable.",
       link: "/journey-wall",
       color: "bg-blue-500/10",
       gradient: "from-blue-500 to-indigo-500",
@@ -34,7 +33,7 @@ const ExperienceSection = () => {
     {
       icon: CloudSun,
       title: "Travel Assistant",
-      description: "Your intelligent companion for seamless journeys. Get personalized weather insights, local recommendations, and real-time travel updates.",
+      description: "Know before you go. Weather patterns, safety alerts, and local conditions in plain English—so you can plan with confidence, not guesswork.",
       link: "/travel-assistant",
       color: "bg-yellow-500/10",
       gradient: "from-amber-500 to-yellow-500",
@@ -43,7 +42,7 @@ const ExperienceSection = () => {
     {
       icon: MapPin,
       title: "Secret Spots",
-      description: "Unlock extraordinary destinations curated by local experts. Discover breathtaking locations that remain untouched by traditional tourism.",
+      description: "Places locals protect—shared responsibly. Authentic experiences off the beaten path, with context on why they're hidden and how to visit respectfully.",
       link: "/secret-spots",
       color: "bg-green-500/10",
       gradient: "from-emerald-500 to-green-500",
@@ -52,7 +51,7 @@ const ExperienceSection = () => {
     {
       icon: Plane,
       title: "Smart Booking",
-      description: "Experience AI-powered travel planning that understands your preferences. Find and book the perfect flights, stays, and experiences effortlessly.",
+      description: "Book what fits your journey—not just the cheapest option. Flights and stays matched to your travel style, budget, and safety priorities.",
       link: "/booking",
       color: "bg-purple-500/10",
       gradient: "from-purple-500 to-violet-500",
@@ -61,10 +60,10 @@ const ExperienceSection = () => {
   ];
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-16 relative overflow-hidden">
       {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background">
-        <div className="absolute inset-0 bg-grid-white/10 bg-[size:60px_60px] opacity-20" />
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-grid-white/10 bg-[size:60px_60px] opacity-10" />
       </div>
 
       <div className="container mx-auto px-4 relative">
@@ -82,14 +81,14 @@ const ExperienceSection = () => {
             className="inline-block"
           >
             <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-              Discover Your Next Adventure
+              Built for Solo Travelers
             </span>
           </motion.div>
           <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
-            Experience JourneyX
+            Travel Smart, Not Scared
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Embark on a journey where every destination tells a story and every moment becomes a cherished memory
+            Everything you need to explore confidently—from real journey insights to safety intelligence
           </p>
         </motion.div>
 
@@ -103,7 +102,7 @@ const ExperienceSection = () => {
               viewport={{ once: true }}
               className="group relative"
             >
-              <div className="relative h-full rounded-3xl bg-gradient-to-b from-white/5 to-white/[0.02] border border-white/10 p-6 overflow-hidden">
+              <div className="relative h-full rounded-3xl bg-gradient-to-b from-white/5 to-white/[0.02] border border-white/10 p-8 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
                 {/* Feature Image Background */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500">
                   <img 
@@ -156,15 +155,8 @@ const ExperienceSection = () => {
 };
 
 const Index = () => {
-  const targetRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start start", "end start"]
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
-  const y = useTransform(scrollYProgress, [0, 0.5], [0, -100]);
+  // No scroll-based transforms - hero scrolls naturally without animations
+  // Background color applied at root level (html/body) in index.css
 
   const stats = [
     { number: "50K+", label: "Happy Travelers", icon: Users },
@@ -173,22 +165,20 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
-      {/* Hero Section */}
-      <div ref={targetRef} className="relative h-screen">
-        <motion.div 
-          style={{ opacity, scale, y }}
-          className="absolute inset-0"
-        >
+    <div className="overflow-hidden" style={{ backgroundColor: 'transparent' }}>
+      {/* Hero Section - Reduced to 90vh to show background */}
+      <div className="relative" style={{ height: '90vh' }}>
+        <div className="absolute inset-0" style={{ backgroundColor: '#F4F7F9' }}>
           <HeroCarousel />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-transparent">
+          {/* Enhanced gradient overlay for premium look */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/55 to-black/30">
             <div className="container mx-auto px-4 h-full flex items-center">
               <div className="max-w-4xl">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
-                  className="bg-white/10 backdrop-blur-lg rounded-lg p-8 border border-white/20"
+                  className="bg-white/5 backdrop-blur-xl rounded-2xl p-10 border border-white/10 shadow-2xl"
                 >
                   <motion.span 
                     className="text-primary font-semibold mb-4 block"
@@ -208,26 +198,34 @@ const Index = () => {
                     <span className="text-primary">Adventure</span>
                   </motion.h1>
                   <motion.p 
-                    className="text-xl text-white/90 mb-8 max-w-2xl"
+                    className="text-2xl text-white font-medium mb-4 max-w-2xl"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
                   >
-                    Embark on extraordinary journeys to hidden gems and breathtaking destinations around the world. Create unforgettable memories with our curated travel experiences.
+                    Travel confidently with real journeys, local knowledge, and safety intelligence.
+                  </motion.p>
+                  <motion.p 
+                    className="text-lg text-white/80 mb-8 max-w-2xl"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8, delay: 0.5 }}
+                  >
+                    For solo explorers who want authentic places without the risks—discover where to go, what to watch for, and how to stay safe.
                   </motion.p>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
+                    transition={{ duration: 0.8, delay: 0.6 }}
                     className="flex flex-wrap gap-4"
                   >
                     <Link to="/journey-wall">
-                      <Button size="lg" className="group">
+                      <Button size="lg" className="group shadow-lg hover:shadow-xl transition-all">
                         <span>Start Your Journey</span>
                         <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                       </Button>
                     </Link>
-                    <Button size="lg" variant="outline" className="bg-white/10 hover:bg-white/20">
+                    <Button size="lg" variant="outline" className="bg-white/10 hover:bg-white/20 border-white/30 shadow-lg">
                       Watch Video
                     </Button>
                   </motion.div>
@@ -235,42 +233,17 @@ const Index = () => {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
 
-      {/* Quote Section */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background">
-          <div className="absolute inset-0 bg-grid-white/10 bg-[size:60px_60px] opacity-20" />
-        </div>
-        
-        <div className="container mx-auto px-4 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-block"
-            >
-              <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-                Quote of the Week
-              </span>
-            </motion.div>
-          </motion.div>
-
-          <QuoteCard
-            quote="The world is a book, and those who do not travel read only one page."
-            author="Saint Augustine"
-            authorImage="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2070&auto=format&fit=crop"
-          />
-        </div>
-      </section>
+      {/* Journey Insight Quote - Editorial inline treatment */}
+      <div className="container mx-auto px-4 my-12 max-w-4xl">
+        <QuoteCard
+          quote="The world is a book, and those who do not travel read only one page."
+          author="Saint Augustine"
+          authorImage="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2070&auto=format&fit=crop"
+        />
+      </div>
 
       {/* Stats Section */}
       <StatsSection />
@@ -279,7 +252,7 @@ const Index = () => {
       <ExperienceSection />
 
       {/* Featured Destinations */}
-      <section className="py-24 bg-muted/30">
+      <section className="py-16">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -288,9 +261,9 @@ const Index = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold mb-4">Featured Destinations</h2>
+            <h2 className="text-4xl font-bold mb-4">Verified Solo-Friendly Destinations</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Handpicked locations that will take your breath away
+              Curated spots where solo travelers feel welcome, safe, and inspired
             </p>
           </motion.div>
           <FeaturedDestinations />

@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import LocationSelector from "@/components/travel/LocationSelector";
 import WeatherCard from "@/components/travel/WeatherCard";
 import NewsCard from "@/components/travel/NewsCard";
+import ProactiveInsights from "@/components/travel/ProactiveInsights";
+import SafetyIntelligenceMap from "@/components/travel/SafetyIntelligenceMap";
 import { mockWeatherData } from "@/data/weatherData";
 import { mockNewsData } from "@/data/newsData";
 
@@ -34,30 +36,78 @@ const TravelAssistant = () => {
   };
   
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <header className="mb-8 text-center">
+          <header className="mb-6 text-center">
             <h1 className="text-4xl font-bold mb-2">Travel Assistant</h1>
-            <p className="text-muted-foreground">Get up-to-date weather and news for your travel destination</p>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Real conditions and safety insights for confident travel
+            </p>
           </header>
           
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-6">
             <LocationSelector 
               locations={locations} 
               onLocationChange={handleLocationChange} 
             />
           </div>
           
-          <Tabs defaultValue="weather" className="max-w-4xl mx-auto">
-            <TabsList className="grid w-full grid-cols-2">
+          {/* Travel Confidence Summary */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="max-w-4xl mx-auto mb-8"
+          >
+            <div className={`p-6 rounded-xl border-2 ${
+              weather.condition.toLowerCase().includes('rain') || weather.temperature > 32
+                ? 'bg-yellow-50 border-yellow-300 dark:bg-yellow-950/20'
+                : 'bg-green-50 border-green-300 dark:bg-green-950/20'
+            }`}>
+              <div className="flex items-start gap-4">
+                <div className="text-3xl">
+                  {weather.condition.toLowerCase().includes('rain') || weather.temperature > 32 ? '🟡' : '🟢'}
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold mb-1">
+                    Today's Travel Confidence: {
+                      weather.condition.toLowerCase().includes('rain') || weather.temperature > 32
+                        ? 'Moderate'
+                        : 'Good'
+                    }
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {weather.condition.toLowerCase().includes('rain')
+                      ? 'Rain expected—plan indoor alternatives for afternoon activities'
+                      : weather.temperature > 32
+                      ? 'High heat—stay hydrated and avoid midday outdoor activities'
+                      : 'Conditions are favorable for outdoor exploration today'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+          
+          <Tabs defaultValue="insights" className="max-w-4xl mx-auto">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="insights">Today's Insights</TabsTrigger>
+              <TabsTrigger value="safety">Safety Map</TabsTrigger>
               <TabsTrigger value="weather">Weather</TabsTrigger>
               <TabsTrigger value="news">Travel News</TabsTrigger>
             </TabsList>
+            
+            <TabsContent value="insights" className="mt-6">
+              <ProactiveInsights weather={weather} />
+            </TabsContent>
+            
+            <TabsContent value="safety" className="mt-6">
+              <SafetyIntelligenceMap />
+            </TabsContent>
             
             <TabsContent value="weather" className="mt-6">
               <div className="max-w-md mx-auto">

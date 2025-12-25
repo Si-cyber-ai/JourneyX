@@ -4,23 +4,28 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Premium, trustworthy color palette for solo travel confidence */
+    /* Signature background - calm blue-gray tone */
+    --background: 210 20% 97%;
+    --foreground: 222.2 47% 11%;
 
+    /* Cards remain pure white for contrast and floating effect */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222.2 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 222.2 47% 11%;
 
-    --primary: 222.2 47.4% 11.2%;
+    /* Calm, confident blue-gray primary color */
+    --primary: 215 25% 27%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Softer muted tones for premium feel */
+    --muted: 214 20% 95%;
+    --muted-foreground: 215 16% 47%;
 
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
@@ -28,11 +33,12 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Subtle borders for clean look */
+    --border: 214 20% 90%;
+    --input: 214 20% 90%;
+    --ring: 215 25% 27%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -95,7 +101,73 @@
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground;
+  html {
+    scroll-behavior: smooth;
+    /* Force JourneyX trademark background */
+    background-color: #F4F7F9;
   }
+
+  body {
+    @apply text-foreground;
+    /* Force JourneyX trademark background - override any conflicting styles */
+    background-color: #F4F7F9 !important;
+    /* Premium typography for better readability */
+    font-feature-settings: "kern" 1, "liga" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Ensure root container doesn't block background */
+  #root {
+    background-color: transparent;
+    min-height: 100vh;
+  }
+}
+
+/* Premium design system utilities */
+@layer utilities {
+  .premium-card {
+    @apply rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow duration-300;
+  }
+  
+  .premium-card-elevated {
+    @apply rounded-xl bg-card border border-border shadow-md hover:shadow-lg transition-all duration-300;
+  }
+  
+  .trust-badge {
+    @apply inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200;
+  }
+  
+  .calm-gradient {
+    background: linear-gradient(135deg, hsl(215, 25%, 27%) 0%, hsl(215, 30%, 35%) 100%);
+  }
+  
+  /* Section divider for subtle separation */
+  .section-divider {
+    @apply relative;
+  }
+  
+  .section-divider::after {
+    content: '';
+    @apply absolute left-0 right-0 h-px;
+    background: linear-gradient(90deg, transparent, hsl(215, 25%, 27%, 0.1), transparent);
+    top: 0;
+  }
+}
+
+/* CRITICAL: Force background color to override Tailwind base resets */
+html,
+body,
+#root {
+  background-color: #F4F7F9 !important;
+}
+
+/* Ensure no white backgrounds anywhere */
+* {
+  box-sizing: border-box;
+}
+
+/* Force all page wrappers to be transparent */
+body > #root > * {
+  background-color: transparent !important;
 }

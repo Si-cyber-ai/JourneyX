@@ -46,7 +46,7 @@ const JourneyWall = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-background/95">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <div className="relative bg-gradient-to-b from-primary/10 to-background/95 pb-10">
         <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]" />

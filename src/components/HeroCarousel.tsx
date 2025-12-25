@@ -28,7 +28,7 @@ const HeroCarousel = () => {
   }, []);
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full" style={{ backgroundColor: '#F4F7F9' }}>
       {images.map((image, index) => (
         <div
           key={index}
