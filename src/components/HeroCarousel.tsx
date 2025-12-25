@@ -1,49 +1,31 @@
+interface HeroCarouselProps {
+  images: string[];
+  currentIndex: number;
+}
 
-import { useState, useEffect } from "react";
-
-const images = [
-  {
-    src: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb",
-    alt: "River between mountains under white clouds"
-  },
-  {
-    src: "https://images.unsplash.com/photo-1472396961693-142e6e269027",
-    alt: "Two brown deer beside trees and mountain"
-  },
-  {
-    src: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21",
-    alt: "Ocean wave at beach"
-  }
-];
-
-const HeroCarousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 6000);
-
-    return () => clearInterval(interval);
-  }, []);
-
+const HeroCarousel = ({ images, currentIndex }: HeroCarouselProps) => {
   return (
-    <div className="h-full w-full" style={{ backgroundColor: '#F4F7F9' }}>
-      {images.map((image, index) => (
-        <div
-          key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentIndex ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <img
-            src={image.src}
-            alt={image.alt}
-            className="h-full w-full object-cover object-center"
+    <>
+      {/* LAYER 1: Fixed full-screen background image - z-index: -2 */}
+      <div className="fixed inset-0 w-screen h-screen overflow-hidden" style={{ zIndex: -2 }}>
+        {images.map((image, index) => (
+          <div
+            key={index}
+            className="absolute inset-0 transition-opacity duration-500"
+            style={{
+              backgroundImage: `url(${image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              opacity: index === currentIndex ? 1 : 0
+            }}
           />
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+      
+      {/* LAYER 2: Static dark overlay for readability - z-index: -1 */}
+      <div className="fixed inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" style={{ zIndex: -1 }} />
+    </>
   );
 };
 

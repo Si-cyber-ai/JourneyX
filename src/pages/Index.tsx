@@ -1,21 +1,17 @@
-
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import HeroCarousel from "@/components/HeroCarousel";
 import FeaturedDestinations from "@/components/FeaturedDestinations";
 import StatsSection from "@/components/StatsSection";
 import QuoteCard from "@/components/QuoteCard";
+import Footer from "@/components/Footer";
 import { 
-  Camera, 
   Map, 
   CloudSun, 
   Plane, 
   MapPin,
-  ArrowRight,
-  Globe,
-  Users,
-  TrendingUp
+  ArrowRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -155,120 +151,146 @@ const ExperienceSection = () => {
 };
 
 const Index = () => {
-  // No scroll-based transforms - hero scrolls naturally without animations
-  // Background color applied at root level (html/body) in index.css
+  // Shared image state for hero and footer synchronization
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const stats = [
-    { number: "50K+", label: "Happy Travelers", icon: Users },
-    { number: "100+", label: "Destinations", icon: Globe },
-    { number: "4.9", label: "User Rating", icon: TrendingUp },
+  const images = [
+    "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb",
+    "https://images.unsplash.com/photo-1472396961693-142e6e269027",
+    "https://images.unsplash.com/photo-1500375592092-40eb2168fd21",
+    "https://images.unsplash.com/photo-1488085061387-422e29b40080?q=80&w=3731&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=3724&auto=format&fit=crop"
   ];
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 7000);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   return (
-    <div className="overflow-hidden" style={{ backgroundColor: 'transparent' }}>
-      {/* Hero Section - Reduced to 90vh to show background */}
-      <div className="relative" style={{ height: '90vh' }}>
-        <div className="absolute inset-0" style={{ backgroundColor: '#F4F7F9' }}>
-          <HeroCarousel />
-          {/* Enhanced gradient overlay for premium look */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/55 to-black/30">
-            <div className="container mx-auto px-4 h-full flex items-center">
-              <div className="max-w-4xl">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="bg-white/5 backdrop-blur-xl rounded-2xl p-10 border border-white/10 shadow-2xl"
-                >
-                  <motion.span 
-                    className="text-primary font-semibold mb-4 block"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5 }}
-                  >
-                    EXPLORE THE WORLD
-                  </motion.span>
-                  <motion.h1 
-                    className="text-5xl md:text-7xl font-bold mb-6 text-white leading-tight"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                  >
-                    Discover Your Next{" "}
-                    <span className="text-primary">Adventure</span>
-                  </motion.h1>
-                  <motion.p 
-                    className="text-2xl text-white font-medium mb-4 max-w-2xl"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                  >
-                    Travel confidently with real journeys, local knowledge, and safety intelligence.
-                  </motion.p>
-                  <motion.p 
-                    className="text-lg text-white/80 mb-8 max-w-2xl"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
-                  >
-                    For solo explorers who want authentic places without the risks—discover where to go, what to watch for, and how to stay safe.
-                  </motion.p>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.6 }}
-                    className="flex flex-wrap gap-4"
-                  >
-                    <Link to="/journey-wall">
-                      <Button size="lg" className="group shadow-lg hover:shadow-xl transition-all">
-                        <span>Start Your Journey</span>
-                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
-                    <Button size="lg" variant="outline" className="bg-white/10 hover:bg-white/20 border-white/30 shadow-lg">
-                      Watch Video
-                    </Button>
-                  </motion.div>
-                </motion.div>
-              </div>
-            </div>
-          </div>
+    <div style={{ backgroundColor: '#F4F7F9' }}>
+      {/* HERO SECTION - Fixed background that stays in place while scrolling */}
+      <section className="relative min-h-screen flex flex-col overflow-hidden" style={{ zIndex: 1 }}>
+        {/* Hero background images - fixed position */}
+        <div className="fixed inset-0" style={{ zIndex: -2 }}>
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className="absolute inset-0 transition-opacity duration-500"
+              style={{
+                backgroundImage: `url(${image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                opacity: index === currentImageIndex ? 1 : 0
+              }}
+            />
+          ))}
         </div>
-      </div>
 
-      {/* Journey Insight Quote - Editorial inline treatment */}
-      <div className="container mx-auto px-4 my-12 max-w-4xl">
-        <QuoteCard
-          quote="The world is a book, and those who do not travel read only one page."
-          author="Saint Augustine"
-          authorImage="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2070&auto=format&fit=crop"
-        />
-      </div>
+        {/* Dark overlay for readability */}
+        <div className="fixed inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" style={{ zIndex: -1 }} />
 
-      {/* Stats Section */}
-      <StatsSection />
+        {/* Top Navigation Bar */}
+        <nav className="relative z-10 flex items-center justify-between px-8 py-6">
+          <div className="text-2xl font-bold text-white tracking-tight">
+            JourneyX
+          </div>
+          <Button variant="outline" size="sm" className="bg-transparent border-white/30 text-white hover:bg-white/10">
+            Login
+          </Button>
+        </nav>
 
-      {/* Experience Section */}
-      <ExperienceSection />
-
-      {/* Featured Destinations */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
+        {/* Hero Content - Center */}
+        <div className="relative z-10 flex-1 flex items-center justify-center px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3 }}
+            className="text-center max-w-3xl"
           >
-            <h2 className="text-4xl font-bold mb-4">Verified Solo-Friendly Destinations</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Curated spots where solo travelers feel welcome, safe, and inspired
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight">
+              Experience Journey
+            </h1>
+            <p className="text-xl md:text-2xl text-white/90 mb-10 max-w-2xl mx-auto">
+              Real journeys. Local knowledge. Safety intelligence for solo explorers.
             </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link to="/journey-wall">
+                <Button size="lg" className="text-lg px-8 py-6 shadow-2xl hover:shadow-3xl transition-all">
+                  Start Exploring
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <Link to="/travel-assistant" className="text-white/80 hover:text-white text-lg underline underline-offset-4">
+                Learn More
+              </Link>
+            </div>
           </motion.div>
-          <FeaturedDestinations />
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="relative z-10 pb-8 flex justify-center">
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="text-white/60 text-sm"
+          >
+            ↓ Scroll to explore
+          </motion.div>
         </div>
       </section>
+
+      {/* MAIN CONTENT SECTION - Solid background, NO image */}
+      <div style={{ backgroundColor: '#F4F7F9', position: 'relative', zIndex: 2 }}>
+        {/* Journey Insight Quote - Editorial inline treatment */}
+        <div className="container mx-auto px-4 py-12 max-w-4xl">
+          <QuoteCard
+            quote="The world is a book, and those who do not travel read only one page."
+            author="Saint Augustine"
+            authorImage="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2070&auto=format&fit=crop"
+          />
+        </div>
+
+        {/* Stats Section */}
+        <StatsSection />
+
+        {/* Experience Section */}
+        <ExperienceSection />
+
+        {/* Featured Destinations */}
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl font-bold mb-4">Verified Solo-Friendly Destinations</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Curated spots where solo travelers feel welcome, safe, and inspired
+              </p>
+            </motion.div>
+            <FeaturedDestinations />
+          </div>
+        </section>
+      </div>
+
+      {/* Gradient transition to footer */}
+      <div 
+        style={{ 
+          height: '120px',
+          background: 'linear-gradient(to bottom, #F4F7F9 0%, rgba(244, 247, 249, 0.7) 40%, rgba(244, 247, 249, 0) 100%)'
+        }} 
+      />
+
+      {/* Footer with image background - synchronized with hero images */}
+      <Footer images={images} currentIndex={currentImageIndex} />
     </div>
   );
 };

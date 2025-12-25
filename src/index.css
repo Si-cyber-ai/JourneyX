@@ -103,14 +103,14 @@
 
   html {
     scroll-behavior: smooth;
-    /* Force JourneyX trademark background */
-    background-color: #F4F7F9;
+    /* No background on html - allow fixed images to show */
+    background-color: transparent;
   }
 
   body {
     @apply text-foreground;
-    /* Force JourneyX trademark background - override any conflicting styles */
-    background-color: #F4F7F9 !important;
+    /* Default background for non-homepage pages */
+    background-color: #F4F7F9;
     /* Premium typography for better readability */
     font-feature-settings: "kern" 1, "liga" 1;
     -webkit-font-smoothing: antialiased;
@@ -155,19 +155,5 @@
   }
 }
 
-/* CRITICAL: Force background color to override Tailwind base resets */
-html,
-body,
-#root {
-  background-color: #F4F7F9 !important;
-}
-
-/* Ensure no white backgrounds anywhere */
-* {
-  box-sizing: border-box;
-}
-
-/* Force all page wrappers to be transparent */
-body > #root > * {
-  background-color: transparent !important;
-}
+/* Homepage-specific: body background is transparent to show fixed image */
+/* Other pages: body background shows #F4F7F9 tint */
