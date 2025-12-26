@@ -5,9 +5,7 @@
  */
 
 import { motion } from "framer-motion";
-import { Card } from "@/components/ui/card";
 import { AlertTriangle, CloudRain, Clock, Shield, Lightbulb } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { WeatherData } from "@/types/weather";
 
 interface ProactiveInsightsProps {
@@ -113,50 +111,21 @@ const ProactiveInsights = ({ weather }: ProactiveInsightsProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="space-y-4"
+      className="space-y-3"
     >
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold">Today's Key Insights</h3>
-        <Badge variant="outline" className="text-xs">
-          Updated now
-        </Badge>
-      </div>
-
-      <div className="space-y-3">
-        {insights.map((insight, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.1 }}
-          >
-            <Card className={`border-l-4 ${insight.borderColor} ${insight.bgColor} shadow-sm`}>
-              <div className="p-4">
-                <div className="flex gap-3">
-                  <div className="flex-shrink-0">
-                    <insight.icon className={`h-5 w-5 ${insight.color}`} />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className={`font-medium text-sm mb-1 ${insight.color}`}>
-                      {insight.title}
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
-                      {insight.message}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* UX: Additional context for solo travelers */}
-      <div className="mt-6 p-4 rounded-lg bg-muted/50 border border-muted">
-        <p className="text-xs text-muted-foreground text-center">
-          Insights based on current conditions. Always verify local advisories.
-        </p>
-      </div>
+      {insights.map((insight, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3, delay: index * 0.05 }}
+          className={`border-l-2 ${insight.borderColor} pl-4 py-3`}
+        >
+          <p className="text-body text-foreground leading-relaxed">
+            {insight.message}
+          </p>
+        </motion.div>
+      ))}
     </motion.div>
   );
 };

@@ -66,7 +66,7 @@ const PostCard = ({ post, onLike }: PostCardProps) => {
   return (
     <>
       <div 
-        className="bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer border border-border"
+        className="premium-card overflow-hidden cursor-pointer"
         onClick={() => setShowModal(true)}
       >
         <div className="relative">
@@ -78,7 +78,7 @@ const PostCard = ({ post, onLike }: PostCardProps) => {
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-white" />
-              <span className="text-white text-sm font-medium">{post.location}</span>
+              <span className="text-white text-meta font-medium">{post.location}</span>
             </div>
           </div>
         </div>
@@ -90,66 +90,61 @@ const PostCard = ({ post, onLike }: PostCardProps) => {
                 <AvatarImage src={post.user.avatar} alt={post.user.name} />
                 <AvatarFallback>{post.user.name.substring(0, 2)}</AvatarFallback>
               </Avatar>
-              <span className="text-sm font-medium">{post.user.name}</span>
+              <span className="text-meta font-medium">{post.user.name}</span>
               {/* UX: Trust badge to show verified journey - builds confidence for solo travelers */}
               <ShieldCheck className="h-3.5 w-3.5 text-green-500" title="Verified Visit" />
             </div>
-            <span className="text-xs text-muted-foreground">{post.date}</span>
+            <span className="text-meta text-muted-foreground">{post.date}</span>
           </div>
           
-          {/* UX: Journey context helps solo travelers understand trip type and feasibility */}
-          <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
-            <span className="font-medium">Solo • Budget • 3 Days</span>
-          </div>
-          
-          {/* UX: Decision label helps solo travelers quickly assess if this journey suits them */}
-          <div className={`flex items-center gap-1.5 px-2 py-1 rounded-md mb-2 text-xs border ${decisionLabel.color}`}>
+          {/* Decision confidence micro-copy: Limit to 3 visible signals */}
+          <div className={`flex items-center gap-1.5 px-2 py-1 rounded-[calc(var(--radius)*0.5)] mb-3 text-meta border ${decisionLabel.color}`}>
             <decisionLabel.icon className="h-3.5 w-3.5" />
             <span className="font-medium">{decisionLabel.text}</span>
           </div>
           
-          <p className="line-clamp-2 mb-2 text-sm">{post.caption}</p>
+          {/* Body text: Caption */}
+          <p className="line-clamp-2 mb-3 text-body">{post.caption}</p>
           
+          {/* Tags: Meta text */}
           <div className="flex gap-1 mb-3 flex-wrap">
-            {post.tags.map(tag => (
-              <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
+            {post.tags.slice(0, 3).map(tag => (
+              <Badge key={tag} variant="secondary" className="text-meta">{tag}</Badge>
             ))}
           </div>
           
-          <div className="flex justify-between items-center">
-            <div className="flex gap-4">
-              {/* UX: Changed from Like to Save - more actionable for solo trip planning */}
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="p-0 h-auto text-primary hover:text-primary/80" 
-                onClick={handleLike}
+          {/* Actions: Quiet buttons */}
+          <div className="flex justify-between items-center pt-2 border-t border-border">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="p-0 h-auto hover:bg-transparent" 
+              onClick={handleLike}
+            >
+              <motion.div
+                whileTap={{ scale: 1.1 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center gap-1.5"
               >
-                <motion.div
-                  whileTap={{ scale: 1.2 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex items-center gap-1"
-                >
-                  <Bookmark 
-                    className={`h-4 w-4 ${post.liked ? 'fill-primary' : ''}`} 
-                  />
-                  <span className="text-xs font-medium">
-                    {post.liked ? 'Saved' : 'Save to My Journey'}
-                  </span>
-                </motion.div>
-              </Button>
-              
-              <Button variant="ghost" size="sm" className="p-0 h-auto">
-                <MessageSquare className="h-5 w-5 text-muted-foreground" />
-                <span className="ml-1 text-xs">{post.comments.length}</span>
-              </Button>
-            </div>
+                <Bookmark 
+                  className={`h-4 w-4 ${post.liked ? 'fill-primary text-primary' : 'text-muted-foreground'}`} 
+                />
+                <span className="text-meta font-medium text-muted-foreground">
+                  {post.liked ? 'Saved' : 'Save'}
+                </span>
+              </motion.div>
+            </Button>
+            
+            <Button variant="ghost" size="sm" className="p-0 h-auto hover:bg-transparent">
+              <MessageSquare className="h-4 w-4 text-muted-foreground" />
+              <span className="ml-1.5 text-meta text-muted-foreground">{post.comments.length}</span>
+            </Button>
           </div>
         </div>
       </div>
       
       <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogContent className="max-w-4xl p-0 overflow-hidden">
+        <DialogContent className="max-w-4xl p-0 overflow-hidden rounded-[var(--radius)]">
           <div className="grid md:grid-cols-2">
             <div className="bg-black flex items-center">
               <img 
@@ -160,7 +155,7 @@ const PostCard = ({ post, onLike }: PostCardProps) => {
             </div>
             <div className="p-6 max-h-[80vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle className="flex items-center gap-2">
+                <DialogTitle className="flex items-center gap-2 text-subsection">
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={post.user.avatar} alt={post.user.name} />
                     <AvatarFallback>{post.user.name.substring(0, 2)}</AvatarFallback>
@@ -170,38 +165,39 @@ const PostCard = ({ post, onLike }: PostCardProps) => {
               </DialogHeader>
               
               <div className="mt-4">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+                <div className="flex items-center gap-2 text-meta text-muted-foreground mb-4">
                   <MapPin className="h-4 w-4" />
                   <span>{post.location}</span>
                 </div>
                 
-                <p className="mb-4">{post.caption}</p>
+                <p className="mb-4 text-body">{post.caption}</p>
                 
                 <div className="flex gap-1 mb-6 flex-wrap">
                   {post.tags.map(tag => (
-                    <Badge key={tag} variant="secondary">{tag}</Badge>
+                    <Badge key={tag} variant="secondary" className="text-meta">{tag}</Badge>
                   ))}
                 </div>
                 
-                <div className="flex gap-4 mb-6">
+                <div className="flex gap-4 mb-6 pb-4 border-b border-border">
                   <Button 
                     variant="ghost" 
                     size="sm" 
                     onClick={() => onLike(post.id)}
+                    className="hover:bg-transparent"
                   >
                     <Heart 
                       className={`h-5 w-5 mr-1 ${post.liked ? 'fill-red-500 text-red-500' : ''}`} 
                     />
-                    {post.likes}
+                    <span className="text-meta">{post.likes}</span>
                   </Button>
                   
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" className="hover:bg-transparent">
                     <MessageSquare className="h-5 w-5 mr-1" />
-                    {post.comments.length}
+                    <span className="text-meta">{post.comments.length}</span>
                   </Button>
                 </div>
                 
-                <h3 className="font-medium mb-2">Comments</h3>
+                <h3 className="text-subsection mb-3">Comments</h3>
                 {post.comments.length > 0 ? (
                   <div className="space-y-3">
                     {post.comments.map((comment, index) => (
@@ -212,16 +208,21 @@ const PostCard = ({ post, onLike }: PostCardProps) => {
                         </Avatar>
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium">{comment.user.name}</span>
-                            <span className="text-xs text-muted-foreground">{comment.date}</span>
+                            <span className="text-meta font-medium">{comment.user.name}</span>
+                            <span className="text-meta text-muted-foreground">{comment.date}</span>
                           </div>
-                          <p className="text-sm">{comment.text}</p>
+                          <p className="text-body">{comment.text}</p>
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground">No comments yet.</p>
+                  /* Empty state: Calm, one sentence */
+                  <div className="text-center py-8">
+                    <MessageSquare className="h-8 w-8 mx-auto mb-2 text-muted-foreground/40" />
+                    <p className="text-body text-muted-foreground mb-3">No comments yet</p>
+                    <Button variant="secondary" size="sm">Be the first to comment</Button>
+                  </div>
                 )}
               </div>
             </div>

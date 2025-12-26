@@ -16,10 +16,12 @@ export interface Post {
   user: User;
   imageUrl: string;
   caption: string;
+  content?: string;
   location: string;
   tags: string[];
   likes: number;
   liked: boolean;
+  saved?: boolean;
   comments: Comment[];
   date: string;
 }

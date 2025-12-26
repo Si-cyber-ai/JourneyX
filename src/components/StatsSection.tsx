@@ -44,7 +44,7 @@ const StatsSection = () => {
       suffix: "K+",
       label: "Happy Travelers",
       icon: Users,
-      description: "Satisfied adventurers who trusted us with their journeys",
+      description: "Satisfied adventurers who trusted us",
       color: "from-blue-500/20 to-blue-600/20"
     },
     {
@@ -52,7 +52,7 @@ const StatsSection = () => {
       suffix: "+",
       label: "Destinations",
       icon: Globe,
-      description: "Unique locations across the globe waiting to be explored",
+      description: "Unique locations waiting to be explored",
       color: "from-emerald-500/20 to-emerald-600/20"
     },
     {
@@ -60,18 +60,18 @@ const StatsSection = () => {
       suffix: "",
       label: "User Rating",
       icon: TrendingUp,
-      description: "Average rating from thousands of verified reviews",
+      description: "Average from verified reviews",
       color: "from-purple-500/20 to-purple-600/20"
     }
   ];
 
   return (
-    <section className="py-16 relative overflow-hidden">
+    <section className="space-section relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.05)_25%,rgba(68,68,68,.05)_50%,transparent_50%,transparent_75%,rgba(68,68,68,.05)_75%)] bg-[length:20px_20px]" />
 
-      <div className="container mx-auto px-4 relative">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="container mx-auto px-4 relative content-width-wide">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-cards">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -81,48 +81,44 @@ const StatsSection = () => {
               viewport={{ once: true }}
               className="relative group"
             >
-              {/* Card */}
-              <div className="h-full rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/10 p-8 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+              {/* Card with subtle hover */}
+              <div className="h-full premium-card p-8">
                 {/* Icon Background */}
-                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${stat.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
+                <div className={`absolute inset-0 rounded-[var(--radius)] bg-gradient-to-br ${stat.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
                 
                 {/* Content */}
                 <div className="relative">
                   {/* Icon */}
-                  <div className="mb-6 inline-block p-4 rounded-xl bg-gradient-to-br from-white/10 to-transparent backdrop-blur-xl border border-white/10">
-                    <stat.icon className="h-8 w-8 text-primary" />
+                  <div className="mb-4 inline-block p-3 rounded-[var(--radius)] bg-gradient-to-br from-white/10 to-transparent backdrop-blur-xl border border-white/10">
+                    <stat.icon className="h-6 w-6 text-primary" />
                   </div>
 
-                  {/* Number */}
-                  <div className="text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
+                  {/* Number - Display scale */}
+                  <div className="text-display mb-1 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
                     <AnimatedCounter end={stat.number} suffix={stat.suffix} />
                   </div>
 
-                  {/* Label */}
-                  <h3 className="text-xl font-semibold mb-3">{stat.label}</h3>
+                  {/* Label - Subsection */}
+                  <div className="text-subsection mb-2">{stat.label}</div>
 
-                  {/* Description */}
-                  <p className="text-muted-foreground text-sm">{stat.description}</p>
-
-                  {/* Decorative Elements */}
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors" />
-                  <div className="absolute bottom-0 left-0 w-16 h-16 bg-primary/5 rounded-full blur-xl group-hover:bg-primary/10 transition-colors" />
+                  {/* Description - Meta text */}
+                  <p className="text-meta text-muted-foreground">{stat.description}</p>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Additional Stats Summary */}
+        {/* Additional Stats Summary - Decision confidence micro-copy */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
           viewport={{ once: true }}
-          className="mt-16 text-center"
+          className="mt-12 text-center"
         >
-          <div className="inline-block px-6 py-3 rounded-full bg-primary/10 backdrop-blur-xl border border-primary/20">
-            <p className="text-sm font-medium text-primary">
+          <div className="inline-block px-6 py-3 rounded-[var(--radius)] bg-primary/10 backdrop-blur-xl border border-primary/20">
+            <p className="text-meta font-medium text-primary">
               Trusted by travelers from over 150+ countries worldwide
             </p>
           </div>

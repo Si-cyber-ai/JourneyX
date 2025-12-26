@@ -2,6 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
+/**
+ * JourneyX Design System
+ * 
+ * Premium, production-grade travel product for solo explorers
+ * Focus: Calm, professional, intentional design without flashy animations
+ * 
+ * TYPOGRAPHY HIERARCHY (4 roles only):
+ * - .text-display: Hero headlines only (64px, weight 700, line-height 1.1)
+ * - .text-section-title: Page/section titles (32px, weight 700, line-height 1.2)
+ * - .text-subsection: Feature cards, headings (20px, weight 600, line-height 1.4)
+ * - .text-body: Descriptions, paragraphs (15px, weight 400, line-height 1.6)
+ * - .text-meta: Tags, labels, timestamps (13px, weight 500, line-height 1.45)
+ * 
+ * SPACING SCALE (engineered, not accidental):
+ * - --space-xs: 4px
+ * - --space-sm: 8px
+ * - --space-md: 16px
+ * - --space-lg: 32px
+ * - --space-xl: 64px
+ * 
+ * BORDER RADIUS:
+ * - Consistent 12px (var(--radius)) across all cards, buttons, modals, inputs
+ * 
+ * BUTTON INTENT:
+ * - Primary (default): ONE per screen - main call to action
+ * - Secondary: Supporting actions
+ * - Tertiary (ghost): Low-emphasis actions
+ * 
+ * MICRO-INTERACTIONS:
+ * - Button hover: +2px lift
+ * - Card hover: slightly deeper shadow
+ * - No parallax, no scroll-based movement, no auto-moving elements
+ * 
+ * CONTENT WIDTH:
+ * - .content-width: 65ch for optimal reading
+ * - .content-width-wide: 1200px max for sections
+ */
+
 @layer base {
   :root {
     /* Premium, trustworthy color palette for solo travel confidence */
@@ -38,7 +76,41 @@
     --input: 214 20% 90%;
     --ring: 215 25% 27%;
 
+    /* Design System: Consistent border radius - 12px for premium feel */
     --radius: 0.75rem;
+
+    /* Design System: Spacing Scale - Engineered, not accidental */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 32px;
+    --space-xl: 64px;
+
+    /* Design System: Typography Hierarchy - Intentional scales */
+    /* Display: Hero headlines only */
+    --font-size-display: 4rem; /* 64px */
+    --font-weight-display: 700;
+    --line-height-display: 1.1;
+    
+    /* Section Title: Journey Wall, Travel Assistant page titles */
+    --font-size-section-title: 2rem; /* 32px */
+    --font-weight-section-title: 700;
+    --line-height-section-title: 1.2;
+    
+    /* Subsection Title: Feature cards, section headings */
+    --font-size-subsection: 1.25rem; /* 20px */
+    --font-weight-subsection: 600;
+    --line-height-subsection: 1.4;
+    
+    /* Body: Descriptions, paragraph text */
+    --font-size-body: 0.9375rem; /* 15px - slightly reduced for elegance */
+    --font-weight-body: 400;
+    --line-height-body: 1.7;
+    
+    /* Meta: Tags, hints, labels, timestamps */
+    --font-size-meta: 0.8125rem; /* 13px */
+    --font-weight-meta: 500;
+    --line-height-meta: 1.5;
 
     --sidebar-background: 0 0% 98%;
 
@@ -115,6 +187,9 @@
     font-feature-settings: "kern" 1, "liga" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Apply body text scale from design system */
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
   }
 
   /* Ensure root container doesn't block background */
@@ -126,16 +201,79 @@
 
 /* Premium design system utilities */
 @layer utilities {
+  /* Typography Hierarchy Classes - Use consistently across app */
+  .text-display {
+    font-size: var(--font-size-display);
+    font-weight: var(--font-weight-display);
+    line-height: var(--line-height-display);
+    letter-spacing: -0.02em;
+  }
+  
+  .text-section-title {
+    font-size: var(--font-size-section-title);
+    font-weight: var(--font-weight-section-title);
+    line-height: var(--line-height-section-title);
+    letter-spacing: -0.01em;
+  }
+  
+  .text-subsection {
+    font-size: var(--font-size-subsection);
+    font-weight: var(--font-weight-subsection);
+    line-height: var(--line-height-subsection);
+  }
+  
+  .text-body {
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+  }
+  
+  .text-meta {
+    font-size: var(--font-size-meta);
+    font-weight: var(--font-weight-meta);
+    line-height: var(--line-height-meta);
+  }
+
+  /* Spacing System Classes - Replace arbitrary margins */
+  .space-section {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+  }
+  
+  .gap-cards {
+    gap: var(--space-md);
+  }
+  
+  .gap-content {
+    gap: var(--space-sm);
+  }
+
+  /* Card System - Subtle micro-interactions only */
   .premium-card {
-    @apply rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow duration-300;
+    border-radius: var(--radius);
+    @apply bg-card border border-border shadow-sm;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  
+  .premium-card:hover {
+    @apply shadow-md;
+    transform: translateY(-2px);
   }
   
   .premium-card-elevated {
-    @apply rounded-xl bg-card border border-border shadow-md hover:shadow-lg transition-all duration-300;
+    border-radius: var(--radius);
+    @apply bg-card border border-border shadow-md;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  
+  .premium-card-elevated:hover {
+    @apply shadow-lg;
+    transform: translateY(-2px);
   }
   
   .trust-badge {
-    @apply inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200;
+    @apply inline-flex items-center gap-1 px-2 py-1 text-meta font-medium bg-green-50 text-green-700 border border-green-200;
+    border-radius: calc(var(--radius) * 0.5);
   }
   
   .calm-gradient {
@@ -152,6 +290,137 @@
     @apply absolute left-0 right-0 h-px;
     background: linear-gradient(90deg, transparent, hsl(215, 25%, 27%, 0.1), transparent);
     top: 0;
+  }
+  
+  /* Content width consistency - prevent text from stretching */
+  .content-width {
+    max-width: 65ch; /* Optimal reading width */
+  }
+  
+  .content-width-wide {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Apple-style horizontal scrolling - Premium experience */
+  .horizontal-scroll {
+    display: flex;
+    gap: var(--space-md);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+  
+  .horizontal-scroll::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  
+  .horizontal-scroll-item {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+  
+  /* Editorial full-width sections */
+  .editorial-section {
+    width: 100%;
+    padding: var(--space-xl) 0;
+  }
+  
+  /* Scrollbar hide utility */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hero section - full viewport */
+  .hero-section {
+    height: 100vh;
+    min-height: 600px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: var(--space-xl);
+  }
+  
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.3) 50%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+    z-index: 1;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+  }
+  
+  /* Journey Wall: Subtle background image with parallax */
+  .journey-wall-bg {
+    /* Fixed background for immersive feel */
+    will-change: transform;
+    /* Smooth rendering optimization */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    /* GPU acceleration for smooth parallax */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+  
+  /* Accessibility: Disable parallax animations for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .journey-wall-bg {
+      transform: none !important;
+      background-attachment: scroll !important;
+    }
+    
+    .horizontal-scroll {
+      scroll-behavior: auto;
+      scroll-snap-type: none;
+    }
+  }
+  
+  /* Low-power device optimization - disable parallax on mobile */
+  @media (max-width: 768px) {
+    .journey-wall-bg {
+      background-attachment: scroll;
+      /* Fallback: Fixed background for immersive feel without parallax */
+      background-attachment: fixed;
+    }
+    
+    .hero-section {
+      min-height: 500px;
+    }
+  }
+  
+  /* Fallback for browsers that don't support backdrop-filter */
+  @supports not (backdrop-filter: blur(1px)) {
+    .journey-wall-bg + div {
+      background: rgba(255, 255, 255, 0.05);
+    }
   }
 }
 

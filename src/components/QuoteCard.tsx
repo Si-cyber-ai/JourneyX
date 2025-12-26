@@ -15,14 +15,14 @@ const QuoteCard = ({ quote, author, authorImage }: QuoteCardProps) => {
       viewport={{ once: true }}
       className="relative w-full"
     >
-      {/* Editorial inline quote card */}
-      <div className="relative border-l-4 border-primary/30 bg-primary/[0.04] pl-6 pr-4 py-5 rounded-r-lg">
-        {/* Quote Text - Left-aligned, understated */}
-        <p className="text-base md:text-lg text-foreground/80 mb-3 leading-relaxed">
+      {/* Editorial inline quote card - calm, no shadow */}
+      <div className="relative border-l-4 border-primary/30 bg-primary/[0.04] pl-6 pr-4 py-5 rounded-r-[var(--radius)]">
+        {/* Quote Text - Body text scale */}
+        <p className="text-body text-foreground/80 mb-3 leading-relaxed">
           "{quote}"
         </p>
 
-        {/* Author Section - Small and muted */}
+        {/* Author Section - Meta text */}
         <div className="flex items-center gap-3">
           {authorImage && (
             <div className="h-8 w-8 rounded-full overflow-hidden border border-primary/10 flex-shrink-0">
@@ -33,7 +33,7 @@ const QuoteCard = ({ quote, author, authorImage }: QuoteCardProps) => {
               />
             </div>
           )}
-          <p className="text-sm text-muted-foreground font-medium">— {author}</p>
+          <p className="text-meta text-muted-foreground font-medium">— {author}</p>
         </div>
       </div>
     </motion.div>

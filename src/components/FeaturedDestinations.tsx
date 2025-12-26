@@ -79,12 +79,12 @@ const FeaturedDestinations = () => {
   };
 
   return (
-    <section className="py-12">
+    <section>
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-cards"
       >
         {destinations.map((destination) => (
           <motion.div
@@ -95,7 +95,7 @@ const FeaturedDestinations = () => {
             className="relative"
           >
             <Card 
-              className="overflow-hidden bg-card hover:shadow-2xl transition-all duration-300 cursor-pointer"
+              className="premium-card overflow-hidden cursor-pointer"
               onClick={() => navigate(`/destination/${destination.id}`)}
             >
               <div className="relative h-[300px] overflow-hidden">
@@ -110,46 +110,47 @@ const FeaturedDestinations = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 
+                {/* Quiet save button */}
                 <motion.button
-                  className={`absolute top-4 right-4 p-2 rounded-full ${
+                  className={`absolute top-4 right-4 p-2 rounded-[var(--radius)] ${
                     likedDestinations.includes(destination.id) 
                       ? 'bg-primary text-white' 
                       : 'bg-white/80 text-gray-700'
                   }`}
                   onClick={(e) => handleLike(destination.id, e)}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <Heart 
-                    className={`h-5 w-5 ${
+                    className={`h-4 w-4 ${
                       likedDestinations.includes(destination.id) ? 'fill-current' : ''
                     }`}
                   />
                 </motion.button>
 
                 <div className="absolute bottom-4 left-4 right-4">
-                  <div className="flex items-center space-x-1 text-white/90 text-sm mb-2">
+                  <div className="flex items-center space-x-1 text-white/90 text-meta mb-2">
                     <MapPin className="h-4 w-4" />
                     <span>{destination.location}</span>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-1">{destination.name}</h3>
+                  <h3 className="text-subsection text-white mb-1">{destination.name}</h3>
                   <div className="flex items-center space-x-2">
-                    <span className="bg-white/20 backdrop-blur-sm text-white px-2 py-1 rounded-full text-xs">
+                    <span className="bg-white/20 backdrop-blur-sm text-white px-2 py-1 rounded-[calc(var(--radius)*0.5)] text-meta">
                       ⭐ {destination.rating}
                     </span>
-                    <span className="text-white/80 text-xs">
+                    <span className="text-white/80 text-meta">
                       ({destination.reviews} reviews)
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="p-5 space-y-4">
-                <p className="text-muted-foreground line-clamp-2">
+              <div className="p-5 space-y-3">
+                <p className="text-body text-muted-foreground line-clamp-2">
                   {destination.description}
                 </p>
 
-                <div className="flex items-center justify-between text-sm text-muted-foreground">
+                <div className="flex items-center justify-between text-meta text-muted-foreground">
                   <div className="flex items-center space-x-2">
                     <Calendar className="h-4 w-4" />
                     <span>{destination.duration}</span>
@@ -164,20 +165,17 @@ const FeaturedDestinations = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {destination.tags.map(tag => (
-                    <span 
-                      key={tag}
-                      className="px-2 py-1 bg-secondary text-xs rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                {/* Decision confidence: Good for solo travelers */}
+                <div className="pt-2 border-t border-border">
+                  <p className="text-meta text-muted-foreground italic">
+                    Well suited for first-time solo travelers
+                  </p>
                 </div>
 
+                {/* Secondary button: Not primary since we have multiple cards */}
                 <Button 
                   className="w-full group"
-                  variant="default"
+                  variant="secondary"
                 >
                   <span>Explore Now</span>
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

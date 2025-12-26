@@ -8,4 +8,5 @@ export interface WeatherData {
   windSpeed: number;
   humidity: number;
   feelsLike: number;
+  imageUrl: string;
 }

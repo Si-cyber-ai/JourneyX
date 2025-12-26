@@ -1,29 +1,49 @@
 import { Link } from "react-router-dom";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 interface FooterProps {
-  images: string[];
-  currentIndex: number;
+  images?: string[];
+  currentIndex?: number;
 }
 
-const Footer = ({ images, currentIndex }: FooterProps) => {
+const Footer = ({ images = [], currentIndex = 0 }: FooterProps) => {
+  // Parallax effect for footer
+  const footerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: footerRef,
+    offset: ["start end", "end start"]
+  });
+  
+  // Move background DOWN when scrolling UP (opposite direction for parallax effect)
+  const backgroundY = useTransform(scrollYProgress, [0, 1], [-100, 100]);
+
   return (
-    <footer className="relative overflow-hidden" style={{ minHeight: '45vh' }}>
-        {/* Rotating background images - same as hero */}
-        <div className="absolute inset-0" style={{ zIndex: 0 }}>
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className="absolute inset-0 transition-opacity duration-500"
-              style={{
-                backgroundImage: `url(${image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center bottom',
-                backgroundRepeat: 'no-repeat',
-                opacity: index === currentIndex ? 1 : 0
-              }}
-            />
-          ))}
-        </div>
+    <footer ref={footerRef} className="relative overflow-hidden" style={{ minHeight: '45vh' }}>
+        {/* Parallax background images with rotation */}
+        {images.length > 0 && (
+          <div className="absolute inset-0" style={{ zIndex: 0 }}>
+            {images.map((image, index) => (
+              <motion.div
+                key={index}
+                className="absolute inset-0 transition-opacity duration-500"
+                style={{
+                  backgroundImage: `url(${image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  opacity: index === currentIndex ? 1 : 0,
+                  y: backgroundY // Parallax effect
+                }}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Fallback solid background if no images */}
+        {images.length === 0 && (
+          <div className="absolute inset-0 bg-gradient-to-b from-muted to-background" style={{ zIndex: 0 }} />
+        )}
 
         {/* Dark overlay for readability */}
         <div 
